@@ -58,12 +58,13 @@ function setRouter(router) {
     useRouter = router
 }
 exports.setRouter = setRouter;
+
 // example for using routing based on messages attributes
 // var attributeMap = {
-// "binaryValue" : {
-// "true" : "TestRouting-route-A",
-// "false" : "TestRouting-route-B"
-// }
+//     "binaryValue" : {
+//         "true" : "TestRouting-route-A",
+//         "false" : "TestRouting-route-B"
+//     }
 // };
 // var useRouter = router.routeByAttributeMapping.bind(undefined, attributeMap);
 
@@ -451,9 +452,17 @@ function processEvent(event, serviceName, streamName, callback) {
 	    });
 	} else {
 	    // dynamo update stream record
-	    var data = exports.createDynamoDataItem(record);
+        // Only process REMOVE events that are the result of an expired TTL
+        if (record.eventName === 'REMOVE') {
+            if (record.userIdentity) {
+                if (record.userIdentity.type === 'Service' && record.userIdentity.principalId === 'dynamodb.amazonaws.com') {
+                    var data = exports.createDynamoDataItem(record);
 
-	    recordCallback(null, data);
+                    console.log("Created the following data for S3 " + data);
+                    recordCallback(null, data);
+                }
+            }
+        }
 	}
     }, function(err, extractedUserRecords) {
 	if (err) {
