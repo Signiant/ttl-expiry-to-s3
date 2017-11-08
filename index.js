@@ -458,7 +458,6 @@ function processEvent(event, serviceName, streamName, callback) {
                 if (record.userIdentity.type === 'Service' && record.userIdentity.principalId === 'dynamodb.amazonaws.com') {
                     var data = exports.createDynamoDataItem(record);
 
-                    console.log("Created the following data for S3 " + data);
                     recordCallback(null, data);
                 }
             }
