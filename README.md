@@ -1,4 +1,4 @@
-# AWS Streams to Kinesis Firehose Forwarder
+# AWS Streams to Kinesis Firehose Forwarder (This repo is not in active development state and some of its dependencies are known to be out of date)
 
 __Please note that this project is now deprecated for Kinesis Streams sources. For forwarding Kinesis Streams data to Kinesis Firehose, you can now configured Kinesis Streams as a source directly. You may still find this project useful for forwarding DynamoDB Update Streams to Kinesis Firehose__
 
